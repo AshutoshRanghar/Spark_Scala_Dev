@@ -36,7 +36,34 @@ object Sets_Operations {
     var union_aug_sep=august_customer.union(september_customer)
    println("The count of Union between Aug and Sep "+union_aug_sep.count())
     
-    
+   //Using left outer join only for the common elements from the left side  
+   
+   var pair_august_data=august_customer.map(x=>(x,1))
+   
+   var pair_sep_data=september_customer.map(x=>(x,1))
+   
+   var left_aug_sep=pair_august_data.leftOuterJoin(pair_sep_data)
+   
+   println(left_aug_sep.distinct().foreach(println))
   
+  /*
+  It will give sample results 
+  
+  (1137,(1,None))
+(7778,(1,None))
+(2615,(1,None))
+(9274,(1,Some(1)))
+(4659,(1,Some(1)))
+(10096,(1,Some(1)))
+
+That means the match and unmatch None means no match and some means there is the other data set matching
+  
+Also we can filter out the unmatching records
+  */
+   
+   var match_left_aug_sep=left_aug_sep.filter(rec=>rec._2._2==None)
+   match_left_aug_sep.foreach(println)
+   
+   
   }
 }
