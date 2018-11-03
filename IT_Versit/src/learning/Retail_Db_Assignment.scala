@@ -68,10 +68,39 @@ object Retail_Db_Assignment {
     
     //MATCHING WITH THE PRODUCT FEED..
     
-    var product_rdd=sc.textFile("../dg_raju/products/main_product")
+   //First Converting the order Feed.
+    var new_order_feed=daily_subtotal.map(x=>(x._1._2,(x._1._1,x._2)))
     
+    println("The order Feed with the combination of (Product,Date,Order Subtotal)")
     
+    new_order_feed.take(5).foreach(println)
+    var product_rdd=sc.textFile("../dg_raju/products/main_products")
+    //MAPPING THE PRODUCT RDD
+    val productsMap = product_rdd.
+   map(product => (product.split(",")(0).toInt, product.split(",")(2)))
+  
+   productsMap.take(5).foreach(println)
+   
+   val dailyRevenuePerProductJoin =new_order_feed.join(productsMap)
     
+   dailyRevenuePerProductJoin.take(5).foreach(println)
     
+//(order_product_id, ((order_date, daily_revenue_per_product_id), product_name))
+    
+    //Sort the data by date in ascending order and daily revenue per per product in descending order.
+   
+   //When we have multiple Sort Conditions  -rec._2._1._2 we are sorting it by desc right before
+   var daily_revenue_sorted=dailyRevenuePerProductJoin.map(rec => ((rec._2._1._1, -rec._2._1._2), (rec._2._1._1, rec._2._1._2, rec._2._2))).
+  sortByKey()
+  
+   daily_revenue_sorted.take(100).foreach(println)
+  
+  val dailyRevenuePerProduct = daily_revenue_sorted.
+  map(rec => rec._2._1 + "," + rec._2._2 + "," + rec._2._3)
+dailyRevenuePerProduct.take(10).foreach(println)
+   
+   
+   
+   
   }
 }
