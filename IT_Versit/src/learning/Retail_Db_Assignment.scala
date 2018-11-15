@@ -98,7 +98,13 @@ object Retail_Db_Assignment {
   val dailyRevenuePerProduct = daily_revenue_sorted.
   map(rec => rec._2._1 + "," + rec._2._2 + "," + rec._2._3)
 dailyRevenuePerProduct.take(10).foreach(println)
-   
+   /*
+dailyRevenuePerProduct.saveAsTextFile("../dg_raju/")
+sc.textFile("/user/dgadiraju/daily_revenue_txt_scala").take(10).foreach(println)
+*/
+
+
+
    
    
    
