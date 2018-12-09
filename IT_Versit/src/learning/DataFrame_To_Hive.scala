@@ -85,10 +85,14 @@ val daily_revenue_per_product=spark.sqlContext.sql("SELECT o.order_date, p.produ
 "GROUP BY o.order_date, p.product_name " +
 "ORDER BY o.order_date, daily_revenue_per_product desc")
 
-//var filter_revenue=dob.filter(dob["daily_revenue_per_product"]<"3000")
+import org.apache.spark.sql.functions.{col, lit, when}
 
-var filter_rdd=daily_revenue_per_product.filter(daily_revenue_per_product("order_date") === "2013-07-25 00:00:00.0").count
-println(filter_rdd)
+var new_col_add=daily_revenue_per_product.withColumn("Killer_column",lit(0))
+//var filter_revenue=dob.filter(dob["daily_revenue_per_product"]<"3000")
+new_col_add.take(50).foreach(println)
+
+//var filter_rdd=daily_revenue_per_product.filter(daily_revenue_per_product("order_date") === "2013-07-25 00:00:00.0").count
+//println(filter_rdd)
 
 //products_df.map(func, encoder)
   }

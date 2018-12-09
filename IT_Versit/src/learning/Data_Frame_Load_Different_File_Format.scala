@@ -4,6 +4,9 @@ import org.apache.spark.sql
 import org.apache.spark.sql.SparkSession
 
 object Data_Frame_Load_Different_File_Format {
+ 
+  case class ASH(val a:Int)
+  
   def main(args:Array[String])
   {
     val spark = SparkSession
@@ -18,6 +21,8 @@ object Data_Frame_Load_Different_File_Format {
     //  orderDF.write.orc("../orders_orc")
       
       var read_orc=spark.read.orc("../orders_orc")
-      read_orc.collect().foreach(println)
+      
+        read_orc.write.format("parquet").save("wdwd")
+  
   }
 }
