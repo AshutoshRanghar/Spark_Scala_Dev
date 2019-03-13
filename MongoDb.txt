@@ -1,0 +1,307 @@
+
+db.products.insertOne({"name":"Mahantest","price":"200","gender":"male"})
+
+
+db.flight.insertOne({
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  })
+  
+  
+  db.flight.insertOne({
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  }
+)
+
+
+ db.flight.updateOne({},{$set:{marker:100}})
+
+
+--UPDATE THE DOCUMENT
+
+
+db.flight.updateOne({"distance":950},{$set:{marker:500}})
+
+
+
+INSERTING MANY RECORDS INTO MONGO DB with
+
+
+db.flightmany.insertMany([
+  {
+    "departureAirport": "MUC",
+    "arrivalAirport": "SFO",
+    "aircraft": "Airbus A380",
+    "distance": 12000,
+    "intercontinental": true
+  },
+  {
+    "departureAirport": "LHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 950,
+    "intercontinental": false
+  },
+  
+    {
+    "departureAirport": "KHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 1950,
+    "intercontinental": false
+  },
+  
+    {
+    "departureAirport": "JHR",
+    "arrivalAirport": "TXL",
+    "aircraft": "Airbus A320",
+    "distance": 9150,
+    "intercontinental": false
+  }
+  
+  
+  
+
+  ]
+)
+
+db.flightmany.find().pretty()
+
+db.flightmany.deleteOne({"distance":950})
+
+db.flightmany.find({"intercontinental":false})
+
+GREATER THAN
+
+db.flightmany.find({"distance":{$gt:1000}}).pretty()
+LESS THAN
+db.flightmany.find({"distance":{$lt:10000}}).pretty()
+
+
+ONE FLIGHT
+db.flightmany.findOne({"distance":{$lt:10000}})
+
+UPDATING FLIGHT
+
+ db.flightmany.updateOne({_id:ObjectId("5c42d7143c30c935cf9338b4")},{$set:{delayed:true}})
+
+ 
+ db.flightmany.update({_id:ObjectId("5c42d7143c30c935cf9338b4")},{{delayed:true}})
+
+ 
+ set new parameter flight 
+
+ db.flightmany.updateMany({_id:ObjectId("5c42d7143c30c935cf9338b4")},{$set:{delayed:true}})
+
+
+ DIFFEREncE BETWEEN UPDATE AND UPDATE MANY
+ DONT use update as update replaces the entire row with the existing document and overwrites that specific row  update many on the other side updates all the rows
+
+
+
+
+ db.flightmany.update({_id:ObjectId("5c42d7143c30c935cf9338b4")},{{delayed:true}})
+
+ 
+ Like it would replace entire row 
+ 
+ { "_id" : ObjectId("5c42d7143c30c935cf9338b4"), "delayed" : true }
+ 
+ 
+ 
+db.passengers.insertMany( 
+ [
+  {
+    "name": "Max Schwarzmueller",
+    "age": 29
+  },
+  {
+    "name": "Manu Lorenz",
+    "age": 30
+  },
+  {
+    "name": "Chris Hayton",
+    "age": 35
+  },
+  {
+    "name": "Sandeep Kumar",
+    "age": 28
+  },
+  {
+    "name": "Maria Jones",
+    "age": 30
+  },
+  {
+    "name": "Alexandra Maier",
+    "age": 27
+  },
+  {
+    "name": "Dr. Phil Evans",
+    "age": 47
+  },
+  {
+    "name": "Sandra Brugge",
+    "age": 33
+  },
+  {
+    "name": "Elisabeth Mayr",
+    "age": 29
+  },
+  {
+    "name": "Frank Cube",
+    "age": 41
+  },
+  {
+    "name": "Karandeep Alun",
+    "age": 48
+  },
+  {
+    "name": "Michaela Drayer",
+    "age": 39
+  },
+  {
+    "name": "Bernd Hoftstadt",
+    "age": 22
+  },
+  {
+    "name": "Scott Tolib",
+    "age": 44
+  },
+  {
+    "name": "Freddy Melver",
+    "age": 41
+  },
+  {
+    "name": "Alexis Bohed",
+    "age": 35
+  },
+  {
+    "name": "Melanie Palace",
+    "age": 27
+  },
+  {
+    "name": "Armin Glutch",
+    "age": 35
+  },
+  {
+    "name": "Klaus Arber",
+    "age": 53
+  },
+  {
+    "name": "Albert Twostone",
+    "age": 68
+  },
+  {
+    "name": "Gordon Black",
+    "age": 38
+  }
+]
+)
+
+FIND() Gives back a cursor object 
+
+TO see full data and see entire list and fetch entire list
+
+db.passengers.find().toArray()
+
+toArray() gives the entire list
+
+db.passengers.find().foreach()
+
+
+PROJECT THE DATA 
+
+db.passengers.find({},{})
+
+1st is for the filter conditions if empty then all
+2nd bracket is for the select clause
+
+
+db.passengers.find({},{name:1}) 
+
+
+db.passengers.find({},{name:1,age:1}) 
+
+ALSO FOR UPDATE 
+db.flightmany.update({},{})
+1st is for the filter  matching condition and then if empty then all
+
+
+
+
+
+
+name:1 means inclued 
+age:1 means included
+
+
+
+db.passengers.find({},{name:1,_id:0}) 
+
+_id: 0 means removing the projection of the Object ID
+
+db.flightmany.update({},{$set:{status:{description:"on-time",reason:"none"}}})
+
+
+NESTED DOCUMENT
+
+db.flightmany.updateMany({},{$set:{status:{description:"on-time",reason:"none"}}})
+
+--SET ALL THE STATUS TO this nested status
+
+ANOTHER LEVEL OF NESTING BE LIKE
+
+	db.flightmany.updateMany({},{$set:{status:{description_main:"on-time",reason:"none",description:{detail_desc:"NESTED"}}}})
+
+
+	
+	--UPDATING HOBBY FOR A PASSENGER
+	
+	
+	db.passengers.updateOne({"name": "Albert Twostone"},{$set:{hobby:"Cricket"}})
+	
+	
+	
+	
+	--HAVING A LIST OF DATA IN THE DOCUMENT and Array of document
+	
+	db.passengers.updateOne({"name":"Gordon Black"},{$set:{hobby:["cricket","footaball","golf"]}})
+	
+	
+	Accessing Array elements
+	
+	db.passengers.findOne({"name":"Gordon Black"}).hobby
+	OR another way of finding the name
+	 db.passengers.findOne({"name":"Gordon Black"},{hobby:1})
+	
+	
+	
+	Accessing Nested Field
+	
+	db.flightmany.find({"status.description_main":"on-time"})
+	
+	
+	
+	
+	
+	-------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	db.shop.insertOne({name:"Shampoo",price:20.99})
+		
+	db.shop.insertOne({name:"Soap",price:20.99,type:"Legs"})
+	
+	db.shop.deleteMany({})
+	
+	
+	
+	
+	
+	
+

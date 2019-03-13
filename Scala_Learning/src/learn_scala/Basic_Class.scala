@@ -1,6 +1,6 @@
 package learn_scala
 
-class Basic_Class(a1:Int,b1:Int) {
+class Basic_Class(var a1:Int,b1:Int) {
  val x:Int=0
  val y:Int=10;
  
@@ -19,8 +19,9 @@ class Basic_Class(a1:Int,b1:Int) {
     {
   
     val ab=new Basic_Class(10,11)
+   ab.a1=20;
     ab.add(5, 10)  
-
+   
 
     }
   }
