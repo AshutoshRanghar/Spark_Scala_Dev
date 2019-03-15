@@ -32,14 +32,15 @@ object AverageTweetLength {
     
     // Now extract the text of each status update into DStreams using map()
     val statuses = tweets.map(status => status.getText())
-    
+    statuses.print()
     // Map this to tweet character lengths.
     val lengths = statuses.map(status => status.length())
-    println(lengths)
+    lengths.print()
     // As we could have multiple processes adding into these running totals
     // at the same time, we'll just Java's AtomicLong class to make sure
     // these counters are thread-safe.
     var totalTweets = new AtomicLong(0)
+    
     var totalChars = new AtomicLong(0)
     
     // In Spark 1.6+, you  might also look into the mapWithState function, which allows
@@ -48,9 +49,11 @@ object AverageTweetLength {
     
     lengths.foreachRDD((rdd, time) => {
       
-      var count = rdd.count()  
-    
-      if (count > 0) {
+    var count = rdd.count() //ASH this is the rdd count of a dstream in an instant Second(1) and will constantly be equal to total lines in 1 second =Batch interval 
+    println("This is the rdd count"+count)
+      if (count > 0) 
+      {
+      
         totalTweets.getAndAdd(count)
         
         
@@ -58,8 +61,10 @@ object AverageTweetLength {
         
         println("Total tweets: " + totalTweets.get() + 
             " Total characters: " + totalChars.get() + 
-            " Average: " + totalChars.get() / totalTweets.get())
+            " Average: " + totalChars.get() / totalTweets.get()) 
+     
       }
+    
     })
     
     // Set a checkpoint directory, and kick it all off
@@ -67,5 +72,7 @@ object AverageTweetLength {
     ssc.checkpoint("C:/checkpoint/")
     ssc.start()
     ssc.awaitTermination()
+  
   }  
+
 }

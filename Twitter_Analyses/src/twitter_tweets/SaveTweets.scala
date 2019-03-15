@@ -48,10 +48,14 @@ object SaveTweets {
         // Stop once we've collected 1000 tweets.
         totalTweets += repartitionedRDD.count()
         println("Tweet count: " + totalTweets)
+      
         if (totalTweets > 1000) {
           System.exit(0)
+    
         }
+     
       }
+    
     })
     
     // You can also write results into a database of your choosing, but we'll do that later.

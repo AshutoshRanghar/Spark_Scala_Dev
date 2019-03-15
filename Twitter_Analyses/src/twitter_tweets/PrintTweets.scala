@@ -30,6 +30,10 @@ object PrintTweets {
     // Now extract the text of each status update into RDD's using map()
     val statuses = tweets.map(status => status.getText())
     
+    val counter=statuses.count()
+    
+    counter.print()
+    
     // Print out the first ten
     statuses.print()
     
