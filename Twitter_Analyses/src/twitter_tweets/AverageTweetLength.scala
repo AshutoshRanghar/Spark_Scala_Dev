@@ -56,6 +56,7 @@ object AverageTweetLength {
       
         totalTweets.getAndAdd(count)
         
+       // ash Addition of the atomic long types as type long
         
         totalChars.getAndAdd(rdd.reduce((x,y) => x + y))
         
@@ -69,8 +70,11 @@ object AverageTweetLength {
     
     // Set a checkpoint directory, and kick it all off
     // I could watch this all day!
+    
     ssc.checkpoint("C:/checkpoint/")
+    
     ssc.start()
+    
     ssc.awaitTermination()
   
   }  

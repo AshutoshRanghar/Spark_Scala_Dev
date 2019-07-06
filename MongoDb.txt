@@ -299,7 +299,8 @@ ANOTHER LEVEL OF NESTING BE LIKE
 	
 	db.shop.deleteMany({})
 	
-	
+	db.shop.insertOne({name:"Fresh Apples",isstart:true,employees:33,funding:12345678,details:{ceo:"Ash",Main_person:"Ashutosh"},tags:[{title:"super"},{title:"wronnny" },
+	{summer:"wdwdwd"}],time:new Date() })
 	
 	
 	

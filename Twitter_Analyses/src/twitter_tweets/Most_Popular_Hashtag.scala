@@ -15,7 +15,7 @@ object Most_Popular_Hashtag {
   def main(args:Array[String])
   {
    setupTwitter()
-   val ssc=new StreamingContext("local[*]","Spark Streaming",Seconds(2))
+   val ssc=new StreamingContext("local[*]","Spark Streaming",Seconds(3))
    
    setupLogging()
    
@@ -25,7 +25,16 @@ object Most_Popular_Hashtag {
   val tweetword=status.flatMap(x=>x.split(" "))
   
   
- val hastag=tweetword.filter(x=>x.contains("Meetoo"))
+ val hastag=tweetword.filter(x=>x.startsWith("#"))
+ 
+ var map_hashtag=hastag.map(x=>(x,1))
+ 
+ var red_hashtag=map_hashtag.reduceByKeyAndWindow(((x,y)=>(x+y)),((x,y)=>(x-y)), Seconds(1000), Seconds(1000))
+ 
+ 
+ //hastag.print()
+ 
+ red_hashtag.print()
   
   //val map_hash=tweetword.map(x=>(x,1))
   
@@ -34,7 +43,7 @@ object Most_Popular_Hashtag {
   //var sorter=reduce_map_hash.transform(rdd=>rdd.sortBy(x=>x._2,false))
   
  //hastag.print()
- hastag.print()
+
    
  //sorter.print
   
